@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,6 +35,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         cmdCalcular = new javax.swing.JButton();
+        cmdBorrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,10 +43,18 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setText("Fotos a revelar");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 120, 20));
+
+        txtFotos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFotosKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtFotos, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 110, -1));
 
         jLabel2.setText("Valor Total ");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 110, 20));
+
+        txtTotal.setEditable(false);
         jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 110, -1));
 
         cmdCalcular.setText("Calcular");
@@ -52,6 +64,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel1.add(cmdCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 80, -1));
+
+        cmdBorrar.setText("Borrar");
+        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmdBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, 80, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,6 +96,11 @@ public class Principal extends javax.swing.JFrame {
         String res;
         double foto, iva, reve, total;
         
+        if (txtFotos.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Digite por favor el número de fotos", "Error", JOptionPane.ERROR_MESSAGE);
+            txtFotos.requestFocusInWindow();        
+        } else {
+        
         foto = Double.parseDouble(txtFotos.getText());
         
         reve  = foto * 1500;
@@ -84,7 +109,25 @@ public class Principal extends javax.swing.JFrame {
         
         res = String.valueOf(total);
         txtTotal.setText(res);
+        }
     }//GEN-LAST:event_cmdCalcularActionPerformed
+
+    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+        // TODO add your handling code here:
+        txtFotos.setText("");
+        txtTotal.setText("");
+        txtFotos.requestFocusInWindow();
+        
+    }//GEN-LAST:event_cmdBorrarActionPerformed
+
+    private void txtFotosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFotosKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+         if (!Character.isDigit(c)) {
+              getToolkit().beep();
+              evt.consume();
+         }        
+    }//GEN-LAST:event_txtFotosKeyTyped
 
     /**
      * @param args the command line arguments
@@ -122,6 +165,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdBorrar;
     private javax.swing.JButton cmdCalcular;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
